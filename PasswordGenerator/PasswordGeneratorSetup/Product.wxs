@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Product Id="*" Name="PasswordGenerator Setup" Language="1033" Version="1.0.0.0" Manufacturer="Aaron Sutton" UpgradeCode="84fa89ed-3e77-44c3-b55a-bd455e38321c">
+		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+
+		<MajorUpgrade DowngradeErrorMessage="A newer version of PasswordGenerator is already installed." />
+		
+		<MediaTemplate EmbedCab="yes" />
+
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="ProgramFilesFolder">
+				<Directory Id="INSTALLFOLDER" Name="PasswordGenerator" />
+			</Directory>
+		</Directory>
+
+		<DirectoryRef Id="INSTALLFOLDER">
+			<Component Id="MainExecutable" Guid="{E875608B-BD94-4B35-85A8-A2B0B4CE0690}">
+				<File Id="PasswordGeneratorEXE" Source="$(var.PasswordGenerator.TargetDir)PasswordGenerator.exe" KeyPath="yes" />
+			</Component>
+			<Component Id="MainDll" Guid="{F16531BB-4367-4D53-910B-83B2F7EB3F98}">
+				<File Id="PasswordGeneratorDLL" Source="$(var.PasswordGenerator.TargetDir)PasswordGenerator.dll" KeyPath="yes" />
+			</Component>
+			<Component Id="RuntimeConfig" Guid="{3C978831-518B-4392-B179-7CDD574827D1}">
+				<File Id="PasswordGeneratorRuntimeConfig" Source="$(var.PasswordGenerator.TargetDir)PasswordGenerator.runtimeconfig.json" KeyPath="yes" />
+			</Component>
+			<Component Id="DepsJson" Guid="{DD9F35BB-0F51-4F04-AF5F-FEE8879D535F}">
+				<File Id="PasswordGeneratorDepsJson" Source="$(var.PasswordGenerator.TargetDir)PasswordGenerator.deps.json" KeyPath="yes" />
+			</Component>
+			<Component Id="LogicDll" Guid="{26743670-E41A-4262-8C30-0A028757CC92}">
+				<File Id="PasswordGeneratorLogicDLL" Source="$(var.PasswordGeneratorLogic.TargetPath)" KeyPath="yes" />
+			</Component>
+		</DirectoryRef>
+
+		<Feature Id="ProductFeature" Title="PasswordGeneratorSetup" Level="1">
+			<ComponentRef Id="MainExecutable" />
+			<ComponentRef Id="MainDll" />
+			<ComponentRef Id="RuntimeConfig" />
+			<ComponentRef Id="DepsJson" />
+			<ComponentRef Id="LogicDll"/>
+		</Feature>
+	</Product>
+</Wix>
